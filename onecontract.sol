@@ -70,15 +70,30 @@ return (objects[msg.sender][length-1].objname,objects[msg.sender][length-1].locT
  function registerUser(bytes32 name, bytes32 role) returns(address)
  {
 	
-
+uint i=0;
 	User memory user;
 	user.name=name;
 	user.role=role;
 	user.userAddress=msg.sender;
-	//uint length=user.object.length;
+	//uint length=user.object.length;	
+	bool flag;	
+
+
+	if(addr.length==0)
+	addr.push(msg.sender);
 	
+	while(i<addr.length)
+	{
+	 if(addr[i]==msg.sender)
+	{flag=true;}
+	i++;	
+       }
+	if(flag==false)
+	addr.push(msg.sender);
+
 	users[msg.sender].push(user);
 	return user.userAddress;// returns the addres
+
 
  }
 
