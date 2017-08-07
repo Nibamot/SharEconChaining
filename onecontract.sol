@@ -28,7 +28,7 @@ contract OneContract {
 	bool getDockAccess;
 	//string role;
 	address userAddress;
-    bool owner;
+    	uint owners;
              }
 
   
@@ -60,7 +60,10 @@ contract OneContract {
 //retrieve objects based on address 
  function retrieveObjDetails() returns(string, string, string)
  {
-//if(users[msg.sender].role==)
+
+
+
+                                                       //if(users[msg.sender].role==)
 
 	uint length = objects[msg.sender].length;
     
@@ -69,32 +72,50 @@ return (objects[msg.sender][length-1].objname,objects[msg.sender][length-1].locT
 
  }
 
+
+
+
+/*function boxInTransit() returns(bool)
+{
+//boo=false;
+return boo;
+
+}*/
+
+
+
 // register a user
- function registerUser(string name, bool owner) returns(address)
+ function registerUser(string name, uint owner) returns(address,uint,string)
  {
 	
 	uint i=0;
 	User memory user;
 	user.name=name;
 	//user.role=role;
+	bool flag; //to check for duplicates in addr array
+	string memory boolliteral;
 	
-	if(owner==true)
+	if(owner==1)
 	{
-	   user.owner=true;
+	   boolliteral="true";
+	   user.owners=1;
 	   user.getDockAccess=true;
 	   user.accessStatus=true;
 	}
-	else
+	
+	if(owner==0)
 	{
-	   user.owner=false; //means the person is a helper.
+	   boolliteral="false";
+	   user.owners=0; //means the person is a helper.
 	   user.getDockAccess=true;
 	   user.accessStatus=false;
 	}
+	
 	user.userAddress=msg.sender;
 	//uint length=user.object.length;	
-	bool flag;	
+		
 
-
+	//to decide whether to keep only owner addresses or not.
 	if(addr.length==0)
 	addr.push(msg.sender);
 	
@@ -108,22 +129,22 @@ return (objects[msg.sender][length-1].objname,objects[msg.sender][length-1].locT
 	addr.push(msg.sender);// adds only unique users to the addr array
 
 	users[msg.sender].push(user);
-	return user.userAddress;// returns the addres
+	return (user.userAddress, user.owners, boolliteral);// returns the addres
 
  }
 
 
 //retrieve the details of the user
- function retrieveUserDetails(address addr) returns(string,bool)
+ function retrieveUserDetails(address addr) returns(string,uint,uint)
  {
    uint length = users[msg.sender].length;
    string memory info1;
-   bool info2;
+   uint info2;
  
     for (uint i = 0; i < length; i++){
     if (addr == users[msg.sender][i].userAddress) {
   	     info1= users[msg.sender][i].name;
-         info2= users[msg.sender][i].owner;
+         info2= users[msg.sender][i].owners;
       }
 	  else
 	  {
@@ -131,7 +152,7 @@ return (objects[msg.sender][length-1].objname,objects[msg.sender][length-1].locT
 	  }
    }
 
-    return (info1, info2);
+    return (info1, info2,length);
 
 	
  }
@@ -181,4 +202,3 @@ return string(bytesStringTrimmed);
 
 
 }
-
