@@ -13,8 +13,9 @@ contract OneContract {
 	uint objid;
 	string locTo;
 	string locFrom;
-	bool delivered;
-	bool inTransit;
+	uint delivered;
+	uint inTransit;
+	uint lightLED;
 	 
 	
   }
@@ -24,8 +25,8 @@ contract OneContract {
 
 	string name;
 	uint balance;
-	bool accessStatus;
-	bool getDockAccess;
+	uint accessStatus;
+	uint getDockAccess;
 	//string role;
 	address userAddress;
     	uint owners;
@@ -49,8 +50,8 @@ contract OneContract {
 	object.objname=objNaame;
 	object.locTo=locto;
 	object.locFrom=locfrom;
-	object.delivered=false;
-	object.inTransit=false;
+	object.delivered=0;
+	object.inTransit=0;
 	object.objid=objects[msg.sender].length+1;
 	objects[msg.sender].push(object);
 	return true;
@@ -58,27 +59,70 @@ contract OneContract {
 
   }
 //retrieve objects based on address 
- function retrieveObjDetails() returns(string, string, string)
+ function retrieveObjDetails(string loc) returns(uint,bytes,bytes)
  {
+	uint j=0;
+	bytes storage a=bytes(objects[msg.sender][i].locTo);
+	bytes memory b=bytes(loc);
+	uint length=a.length;
+	if(a.length!=b.length)
+	return (length,a,b);
 
+	
+	
+	
+	while(i<length)
+	{
+	 if(a[i]==b[i])
+         i++;
+	 else
+	 return (i,a,b);
+	}
+	i=0;
+	return (3,blocTo,blocTo); 
+	    bytes memory bname = bytes(objects[msg.sender][i].objname);
+	    bytes memory blocTo = bytes(objects[msg.sender][i].locTo);
+	    bytes memory blocFrom = bytes(objects[msg.sender][i].locFrom);
+	    string memory test='yes'; 
 
+	
 
+	/*uint length= objects[msg.sender].length;
+	for(uint i=0;i<length;i++)
+	{
+	  if(sha3(objects[msg.sender][i].locTo)==sha3(loc))
+	  {
+	    bytes memory bname = bytes(objects[msg.sender][i].objname);
+	    bytes memory blocTo = bytes(objects[msg.sender][i].locTo);
+	    bytes memory blocFrom = bytes(objects[msg.sender][i].locFrom);
+	    string memory test='yes'; 
+	  }
+
+	}*/
+	
+	
                                                        //if(users[msg.sender].role==)
 
-	uint length = objects[msg.sender].length;
+	
     
-return (objects[msg.sender][length-1].objname,objects[msg.sender][length-1].locTo,objects[msg.sender][length-1].locFrom); 
+	return (3,blocTo,blocTo); 
 
 
  }
 
 
+/*function byteArraytoString(bytes,bytes,bytes) returns ()
+{
+
+
+}
+*/
 
 
 /*function boxInTransit() returns(bool)
 {
-//boo=false;
-return boo;
+return objects[msg.sender].length;
+
 
 }*/
 
@@ -99,16 +143,16 @@ return boo;
 	{
 	   boolliteral="true";
 	   user.owners=1;
-	   user.getDockAccess=true;
-	   user.accessStatus=true;
+	   user.getDockAccess=1;
+	   user.accessStatus=1;
 	}
 	
 	if(owner==0)
 	{
 	   boolliteral="false";
 	   user.owners=0; //means the person is a helper.
-	   user.getDockAccess=true;
-	   user.accessStatus=false;
+	   user.getDockAccess=1;
+	   user.accessStatus=0;
 	}
 	
 	user.userAddress=msg.sender;
